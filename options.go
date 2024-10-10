@@ -153,6 +153,10 @@ type Options struct {
 
 	// Add suffix to client name. Default is empty.
 	IdentitySuffix string
+
+	// Enables pretty response
+	// Currently only supported for .Do() command
+	EnablePrettyResponse bool
 }
 
 func (opt *Options) init() {

@@ -673,6 +673,12 @@ func (c *Client) Conn() *Conn {
 func (c *Client) Do(ctx context.Context, args ...interface{}) *Cmd {
 	cmd := NewCmd(ctx, args...)
 	_ = c.Process(ctx, cmd)
+
+	// If pretty printing is enabled, call the pretty rendering function
+	if c.opt.EnablePrettyResponse {
+		cmd.PrettyRender()
+	}
+
 	return cmd
 }
 
