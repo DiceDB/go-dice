@@ -1,6 +1,6 @@
 module github.com/dicedb/go-dice
 
-go 1.18
+go 1.23
 
 require (
 	github.com/bsm/ginkgo/v2 v2.12.0
