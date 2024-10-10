@@ -3,6 +3,7 @@ package dicedb
 import (
 	"bufio"
 	"context"
+	"errors"
 	"fmt"
 	"net"
 	"regexp"
@@ -480,6 +481,15 @@ func (cmd *Cmd) BoolSlice() ([]bool, error) {
 func (cmd *Cmd) readReply(rd *proto.Reader) (err error) {
 	cmd.val, err = rd.ReadReply()
 	return err
+}
+
+func (cmd *Cmd) PrettyRender() {
+	if cmd.Err() != nil && !errors.Is(cmd.Err(), Nil) {
+		_, cmd.err = proto.RenderOutput(cmd.Name(), nil, cmd.Err())
+		return
+	}
+
+	cmd.val, _ = proto.RenderOutput(cmd.Name(), cmd.Val(), nil)
 }
 
 //------------------------------------------------------------------------------
