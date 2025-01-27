@@ -638,7 +638,7 @@ var _ = Describe("Hook with MinIdleConns", func() {
 })
 
 var _ = Describe("Dialer connection timeouts", func() {
-	var client *redis.Client
+	var client *dicedb.Client
 
 	const dialSimulatedDelay = 1 * time.Second
 
@@ -651,7 +651,7 @@ var _ = Describe("Dialer connection timeouts", func() {
 			return net.Dial("tcp", options.Addr)
 		}
 		options.MinIdleConns = 1
-		client = redis.NewClient(options)
+		client = dicedb.NewClient(options)
 	})
 
 	AfterEach(func() {

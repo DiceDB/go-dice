@@ -242,7 +242,6 @@ func (c *baseClient) getConn(ctx context.Context) (*pool.Conn, error) {
 			return nil, err
 		}
 	}
-
 	cn, err := c._getConn(ctx)
 	if err != nil {
 		if c.opt.Limiter != nil {
@@ -316,7 +315,7 @@ func (c *baseClient) initConn(ctx context.Context, cn *pool.Conn) error {
 		return err
 	}
 
-	_, err = conn.Pipelined(ctx, func(pipe Pipeliner) error {
+	if _, err = conn.Pipelined(ctx, func(pipe Pipeliner) error {
 		if !auth && password != "" {
 			if username != "" {
 				pipe.AuthACL(ctx, username, password)
@@ -338,8 +337,7 @@ func (c *baseClient) initConn(ctx context.Context, cn *pool.Conn) error {
 		}
 
 		return nil
-	})
-	if err != nil {
+	}); err != nil {
 		return err
 	}
 
@@ -352,7 +350,6 @@ func (c *baseClient) initConn(ctx context.Context, cn *pool.Conn) error {
 		p := conn.Pipeline()
 		p.ClientSetInfo(ctx, WithLibraryName(libName))
 		p.ClientSetInfo(ctx, WithLibraryVersion(libVer))
-		_, _ = p.Exec(ctx)
 	}
 
 	if c.opt.OnConnect != nil {

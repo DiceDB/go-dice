@@ -9,6 +9,7 @@ import (
 
 	. "github.com/bsm/ginkgo/v2"
 	. "github.com/bsm/gomega"
+	"github.com/redis/go-redis/v9"
 
 	"github.com/dicedb/dicedb-go"
 )
@@ -53,7 +54,7 @@ var _ = Describe("Probabilistic commands", Label("probabilistic"), func() {
 					resultInfo, err := client.BFInfo(ctx, "testbf1").Result()
 
 					Expect(err).NotTo(HaveOccurred())
-					Expect(resultInfo).To(BeAssignableToTypeOf(redis.BFInfo{}))
+					Expect(resultInfo).To(BeAssignableToTypeOf(dicedb.BFInfo{}))
 					Expect(resultInfo.ItemsInserted).To(BeEquivalentTo(int64(1)))
 				})
 
